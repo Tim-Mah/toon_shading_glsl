@@ -9,3 +9,4 @@ We coded vertex and fragment shaders to:
 4) output of the lapacian matrix shading, which uses the depth buffer and detects the edges of objects, outlining in white
 5) Combine steps 3 and 4, and while specifying the number of colours shades we want, and outlines the edges in black.
 
+[![Watch the video](https://img.youtube.com/vi/OnzeRyGvHdQ/maxresdefault.jpg)](https://youtube.com/shorts/OnzeRyGvHdQ)
