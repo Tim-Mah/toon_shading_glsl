@@ -1,0 +1,63 @@
+CISC/CMPE 454 - Computer Graphics Assignment 2
+
+You task is to implement non-photorealistic rendering on the GPU.  You
+will add cel shading and a wide black silhouette to a rendered model.
+
+Rendering is done in three passes:
+
+ - In pass 1, the object is rendered and the colour, normal, and depth
+   is stored for each pixel.
+
+ - In pass 2, edges are detected by computing the Laplacian of the
+   depth at each pixel.
+
+ - In pass 3, the object is rendered using cel shading (i.e. quantized
+   diffuse shading) where the Laplacian is below a threshold, and
+   using a black outline otherwise.  But this would result in a black
+   outline that is too narrow so, instead, a fragment is coloured
+   black if any of the nine fragments in the 3x3 neighbourhood around
+   the fragment has a Laplacian at or above the threshold.
+
+The colour, normal, depth, and Laplacian are stored in four textures.
+Each texture can be thought of as having the same dimensions as the
+window, so there's a one-to-one correspondence between texels in the
+texture map and pixels in the window.
+
+  Compile and run the code.  On Linux and MacOS, use
+
+    make
+    ./toon ../data/teapot.obj
+
+  On Windows Visual Studio, add ..\data\teapot.obj to the command-line
+  parameters in the debugging configuration.
+
+  Explanation of output:
+  
+    The program should show an empty magenta-coloured window.  Press
+    'd' (for "debug") to see the output of the "dummy" shaders, which
+    just render the object.  Then press 'd' again to see the four
+    textures as they appear after the first pass.  Press 'd' again to
+    see the textures as they appear after the second pass.  Press 'd'
+    again to see the program output (i.e. after the third pass).  The
+    textures will be shown as
+
+      lower-left  = colour
+      upper-left  = VCS normals with (r,g,b) = (x,y,z)
+      upper-right = depth with lighter being larger (i.e. farther away)
+      lower-right = Laplacian with lighter being larger
+
+    After the first pass, the Laplacian texture isn't updated, so it will
+    appear stationary as the other three get updated.  Whatever was last
+    in the texture will still appear there.
+
+    Using the provided skeleton shaders, the textures for colour,
+    normals, depth, and Laplacian will be red, green, grey, and blue,
+    respectively.  The object will rotate in the first three textures,
+    but the Laplacian texture will initally be completely blue.  You
+    will have to edit the shaders to provide correct textures.
+
+  When you run the program, press 'd' twice to see the three textures.
+
+  When you run the program, press 'd' thrice to see the Laplacian
+  texture in the lower-right corner.  Bright pixels will indicate
+  large positive values.
